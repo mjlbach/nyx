@@ -56,9 +56,9 @@ in
   };
 
   config = mkIf cfg.enable {
-    # home.sessionPath = [
-    #   "${xdg.configHome}/git/bin"
-    # ];
+    home.sessionPath = [
+      "${xdg.configHome}/git/bin"
+    ];
 
     home.sessionVariables = {
       GIT_PAGER = if cfg.minimal then "less" else "delta --dark --theme TwoDark";
