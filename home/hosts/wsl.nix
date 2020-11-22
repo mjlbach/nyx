@@ -13,5 +13,7 @@
     profiles = {
       development.enable = true;
     };
+
+    users.eden.enable = true;
   };
 }

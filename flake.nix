@@ -43,6 +43,7 @@
           imports = [
             (import ./home/aspects)
             (import ./home/profiles)
+            # (import ./users) # TODO: Find a better spot to import this for both nix and home-manager
             (import config)
           ];
 
@@ -96,11 +97,8 @@
             };
           };
 
-          # TODO: Use nyx.users to set this depending of the host that was configured
-          # username = config.nyx.users.username;
-          # homeDirectory = config.nyx.users.homeDirectory;
-          username = "eden";
-          homeDirectory = "/home/eden";
+          username = nyx.user.username;
+          homeDirectory = nyx.user.homeDirectory;
           pkgs = pkgsBySystem."${system}";
         });
 
@@ -114,10 +112,16 @@
             system = "x86_64-linux";
             config = ./home/hosts/wsl.nix;
           };
+
+          work = {
+            system = "x86_64-linux";
+            config = ./home/hosts/work.nix;
+          };
         };
 
         homeConfiguration = forEachSystem (system: {
           wsl = mkHomeManagerHostConfiguration "wsl" { inherit system; };
+          work = mkHomeManagerHostConfiguration "work" { inherit system; };
         });
 
         # Overlays consumed by the home-manager/NixOS configuration.
